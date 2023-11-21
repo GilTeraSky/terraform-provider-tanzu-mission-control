@@ -53,6 +53,7 @@ import (
 	policyorganizationclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/organization/policy"
 	provisionerclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/provisioner"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/proxy"
+	recipeclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/recipe"
 	tanzukubernetesclusterclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/tanzukubernetescluster"
 	tanzupackageclusterclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/tanzupackage"
 	pkginstallclusterclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/tanzupackageinstall"
@@ -144,6 +145,7 @@ func newHTTPClient(httpClient *transport.Client) *TanzuMissionControl {
 		ClusterClassResourceService:                   clusterclassclient.New(httpClient),
 		TanzuKubernetesClusterResourceService:         tanzukubernetesclusterclient.New(httpClient),
 		ProvisionerResourceService:                    provisionerclient.New(httpClient),
+		RecipeResourceService:                         recipeclient.New(httpClient),
 	}
 }
 
@@ -202,4 +204,5 @@ type TanzuMissionControl struct {
 	ClusterClassResourceService                   clusterclassclient.ClientService
 	TanzuKubernetesClusterResourceService         tanzukubernetesclusterclient.ClientService
 	ProvisionerResourceService                    provisionerclient.ClientService
+	RecipeResourceService                         recipeclient.ClientService
 }
