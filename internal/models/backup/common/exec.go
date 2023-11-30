@@ -3,16 +3,16 @@ Copyright © 2023 VMware, Inc. All Rights Reserved.
 SPDX-License-Identifier: MPL-2.0
 */
 
-package backupschedulemodels
+package backupcommon
 
 import (
 	"github.com/go-openapi/swag"
 )
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionBackupExecHook ExecHook is a hook that uses the pod exec API to execute a command in a container in a pod.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionBackupExecHook ExecHook is a hook that uses the pod exec API to execute a command in a container in a pod.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.backup.ExecHook.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionBackupExecHook struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionBackupExecHook struct {
 
 	// Command is the command and arguments to execute.
 	Command []string `json:"command"`
@@ -22,7 +22,7 @@ type VmwareTanzuManageV1alpha1ClusterDataprotectionBackupExecHook struct {
 	Container string `json:"container,omitempty"`
 
 	// OnError specifies how Velero should behave if it encounters an error executing this hook.
-	OnError *VmwareTanzuManageV1alpha1ClusterDataprotectionBackupHookErrorMode `json:"onError,omitempty"`
+	OnError *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupHookErrorMode `json:"onError,omitempty"`
 
 	// Timeout defines the maximum amount of time Velero should wait for the hook to complete before
 	// considering the execution a failure.
@@ -30,7 +30,7 @@ type VmwareTanzuManageV1alpha1ClusterDataprotectionBackupExecHook struct {
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionBackupExecHook) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupExecHook) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -39,8 +39,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionBackupExecHook) MarshalBi
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionBackupExecHook) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionBackupExecHook
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupExecHook) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionBackupExecHook
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err

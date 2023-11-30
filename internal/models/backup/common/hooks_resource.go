@@ -3,17 +3,17 @@ Copyright © 2023 VMware, Inc. All Rights Reserved.
 SPDX-License-Identifier: MPL-2.0
 */
 
-package backupschedulemodels
+package backupcommon
 
 import (
 	"github.com/go-openapi/swag"
 )
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionBackupBackupResourceHookSpec BackupResourceHookSpec defines one or more BackupResourceHooks that should be executed based on
+// VmwareTanzuManageV1alpha1ClusterDataProtectionBackupBackupResourceHookSpec BackupResourceHookSpec defines one or more BackupResourceHooks that should be executed based on
 // the rules defined for namespaces and labels.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.backup.BackupResourceHookSpec.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionBackupBackupResourceHookSpec struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionBackupBackupResourceHookSpec struct {
 
 	// ExcludedNamespaces specifies the namespaces to which this hook spec does not apply.
 	ExcludedNamespaces []string `json:"excludedNamespaces"`
@@ -30,15 +30,15 @@ type VmwareTanzuManageV1alpha1ClusterDataprotectionBackupBackupResourceHookSpec 
 
 	// PostHooks is a list of BackupResourceHooks to execute after storing the item in the backup.
 	// These are executed after all "additional items" from item actions are processed.
-	PostHooks []*VmwareTanzuManageV1alpha1ClusterDataprotectionBackupBackupResourceHook `json:"postHooks"`
+	PostHooks []*VmwareTanzuManageV1alpha1ClusterDataProtectionBackupBackupResourceHook `json:"postHooks"`
 
 	// PreHooks is a list of BackupResourceHooks to execute prior to storing the item in the backup.
 	// These are executed before any "additional items" from item actions are processed.
-	PreHooks []*VmwareTanzuManageV1alpha1ClusterDataprotectionBackupBackupResourceHook `json:"preHooks"`
+	PreHooks []*VmwareTanzuManageV1alpha1ClusterDataProtectionBackupBackupResourceHook `json:"preHooks"`
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionBackupBackupResourceHookSpec) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupBackupResourceHookSpec) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -47,8 +47,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionBackupBackupResourceHookS
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionBackupBackupResourceHookSpec) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionBackupBackupResourceHookSpec
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupBackupResourceHookSpec) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionBackupBackupResourceHookSpec
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err

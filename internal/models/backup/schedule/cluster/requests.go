@@ -3,23 +3,23 @@ Copyright © 2023 VMware, Inc. All Rights Reserved.
 SPDX-License-Identifier: MPL-2.0
 */
 
-package backupschedulemodels
+package clusterbackupschedule
 
 import (
 	"github.com/go-openapi/swag"
 )
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleRequest VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleUpdateScheduleResponse Response from updating a Schedule.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleRequest VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleUpdateScheduleResponse Response from updating a Schedule.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.schedule.UpdateScheduleResponse.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleRequest struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleRequest struct {
 
 	// Schedule updated.
-	Schedule *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSchedule `json:"schedule,omitempty"`
+	Schedule *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule `json:"schedule,omitempty"`
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleRequest) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -28,8 +28,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleRequest) MarshalB
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleRequest) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleRequest
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleRequest) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleRequest
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
@@ -40,17 +40,17 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleRequest) Unmarsha
 	return nil
 }
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleResponse VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleUpdateScheduleResponse Response from updating a Schedule.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleUpdateScheduleResponse Response from updating a Schedule.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.schedule.UpdateScheduleResponse.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleResponse struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse struct {
 
 	// Schedule updated.
-	Schedule *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSchedule `json:"schedule,omitempty"`
+	Schedule *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule `json:"schedule,omitempty"`
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleResponse) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -59,8 +59,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleResponse) Marshal
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleResponse) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleResponse
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
@@ -71,20 +71,20 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleResponse) Unmarsh
 	return nil
 }
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleListSchedulesResponse Response from listing Schedules.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleListSchedulesResponse Response from listing Schedules.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.schedule.ListSchedulesResponse.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleListSchedulesResponse struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleListSchedulesResponse struct {
 
 	// List of schedules.
-	Schedules []*VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSchedule `json:"schedules"`
+	Schedules []*VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule `json:"schedules"`
 
 	// Total count.
 	TotalCount string `json:"totalCount,omitempty"`
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleListSchedulesResponse) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleListSchedulesResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -93,8 +93,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleListSchedulesResp
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleListSchedulesResponse) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleListSchedulesResponse
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleListSchedulesResponse) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleListSchedulesResponse
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
@@ -105,17 +105,17 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleListSchedulesResp
 	return nil
 }
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleDeleteScheduleResponse Response from deleting a Schedule.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleDeleteScheduleResponse Response from deleting a Schedule.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.schedule.DeleteScheduleResponse.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleDeleteScheduleResponse struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleDeleteScheduleResponse struct {
 
 	// Message regarding deletion.
 	Message string `json:"message,omitempty"`
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleDeleteScheduleResponse) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleDeleteScheduleResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -124,8 +124,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleDeleteScheduleRes
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleDeleteScheduleResponse) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleDeleteScheduleResponse
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleDeleteScheduleResponse) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleDeleteScheduleResponse
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err

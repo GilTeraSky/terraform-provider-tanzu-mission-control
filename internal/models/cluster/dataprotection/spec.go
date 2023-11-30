@@ -9,10 +9,10 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionSpec The spec collects all the options for installing backup and restore solution into a Kubernetes cluster.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionSpec The spec collects all the options for installing backup and restore solution into a Kubernetes cluster.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.Spec.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionSpec struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionSpec struct {
 	// A flag to indicate whether to skip installation of restic server (https://github.com/restic/restic).
 	// Otherwise, restic would be enabled by default as part of Data Protection installation.
 	DisableRestic bool `json:"disableRestic"`
@@ -25,7 +25,7 @@ type VmwareTanzuManageV1alpha1ClusterDataprotectionSpec struct {
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionSpec) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionSpec) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -34,8 +34,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionSpec) MarshalBinary() ([]
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionSpec) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionSpec
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionSpec) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionSpec
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err

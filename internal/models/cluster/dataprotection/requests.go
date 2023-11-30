@@ -9,17 +9,17 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest Request to create a DataProtection.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest Request to create a DataProtection.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.CreateDataProtectionRequest.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest struct {
 
 	// DataProtection to create.
-	DataProtection *VmwareTanzuManageV1alpha1ClusterDataprotectionDataProtection `json:"dataProtection,omitempty"`
+	DataProtection *VmwareTanzuManageV1alpha1ClusterDataProtectionDataProtection `json:"dataProtection,omitempty"`
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -28,8 +28,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionReque
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
@@ -40,17 +40,17 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionReque
 	return nil
 }
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse Response from creating a DataProtection.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse Response from creating a DataProtection.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.CreateDataProtectionResponse.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse struct {
 
 	// DataProtection created.
-	DataProtection *VmwareTanzuManageV1alpha1ClusterDataprotectionDataProtection `json:"dataProtection,omitempty"`
+	DataProtection *VmwareTanzuManageV1alpha1ClusterDataProtectionDataProtection `json:"dataProtection,omitempty"`
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -59,8 +59,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRespo
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
@@ -71,20 +71,20 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRespo
 	return nil
 }
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsResponse Response from listing DataProtections.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionListDataProtectionsResponse Response from listing DataProtections.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.ListDataProtectionsResponse.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsResponse struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionListDataProtectionsResponse struct {
 
 	// List of dataprotections.
-	DataProtections []*VmwareTanzuManageV1alpha1ClusterDataprotectionDataProtection `json:"dataProtections"`
+	DataProtections []*VmwareTanzuManageV1alpha1ClusterDataProtectionDataProtection `json:"dataProtections"`
 
 	// Total count.
 	TotalCount string `json:"totalCount,omitempty"`
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsResponse) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionListDataProtectionsResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -93,8 +93,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsRespon
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsResponse) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsResponse
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionListDataProtectionsResponse) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionListDataProtectionsResponse
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err

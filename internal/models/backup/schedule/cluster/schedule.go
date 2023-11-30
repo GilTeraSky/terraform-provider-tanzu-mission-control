@@ -3,7 +3,7 @@ Copyright © 2023 VMware, Inc. All Rights Reserved.
 SPDX-License-Identifier: MPL-2.0
 */
 
-package backupschedulemodels
+package clusterbackupschedule
 
 import (
 	"github.com/go-openapi/swag"

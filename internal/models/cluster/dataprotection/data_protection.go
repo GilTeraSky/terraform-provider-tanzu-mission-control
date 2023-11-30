@@ -11,32 +11,32 @@ import (
 	objectmetamodel "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/objectmeta"
 )
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionDataProtection Backup, restore, or migrate cluster data.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionDataProtection Backup, restore, or migrate cluster data.
 //
 // Protect Kubernetes cluster data with the DataProtection resource. Backup, restore, or.
 // migrate cluster objects and volumes.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.DataProtection.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionDataProtection struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionDataProtection struct {
 
 	// Full name for the DataProtection.
-	FullName *VmwareTanzuManageV1alpha1ClusterDataprotectionFullName `json:"fullName,omitempty"`
+	FullName *VmwareTanzuManageV1alpha1ClusterDataProtectionFullName `json:"fullName,omitempty"`
 
 	// Metadata for the DataProtection object.
 	Meta *objectmetamodel.VmwareTanzuCoreV1alpha1ObjectMeta `json:"meta,omitempty"`
 
 	// Spec field for DataProtection.
-	Spec *VmwareTanzuManageV1alpha1ClusterDataprotectionSpec `json:"spec"`
+	Spec *VmwareTanzuManageV1alpha1ClusterDataProtectionSpec `json:"spec"`
 
 	// Status field.
-	Status *VmwareTanzuManageV1alpha1ClusterDataprotectionStatus `json:"status,omitempty"`
+	Status *VmwareTanzuManageV1alpha1ClusterDataProtectionStatus `json:"status,omitempty"`
 
 	// Metadata describing the type of the resource.
 	Type *objectmetamodel.VmwareTanzuCoreV1alpha1ObjectType `json:"type,omitempty"`
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionDataProtection) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionDataProtection) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -45,8 +45,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionDataProtection) MarshalBi
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionDataProtection) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionDataProtection
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionDataProtection) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionDataProtection
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err

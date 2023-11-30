@@ -3,16 +3,16 @@ Copyright © 2023 VMware, Inc. All Rights Reserved.
 SPDX-License-Identifier: MPL-2.0
 */
 
-package backupschedulemodels
+package clusterbackupschedule
 
 import (
 	"github.com/go-openapi/swag"
 )
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSpec The schedule spec.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSpec The schedule spec.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.schedule.Spec.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSpec struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSpec struct {
 
 	// Paused specifies whether the schedule is paused or not.
 	Paused bool `json:"paused"`
@@ -21,11 +21,11 @@ type VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSpec struct {
 	Schedule *VmwareTanzuManageV1alpha1CommonScheduleSchedule `json:"schedule,omitempty"`
 
 	// The definition of the Backup to be run on the provided schedule.
-	Template *VmwareTanzuManageV1alpha1ClusterDataprotectionBackupSpec `json:"template,omitempty"`
+	Template *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSpec `json:"template,omitempty"`
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSpec) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSpec) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -34,8 +34,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSpec) MarshalBina
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSpec) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSpec
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSpec) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSpec
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err

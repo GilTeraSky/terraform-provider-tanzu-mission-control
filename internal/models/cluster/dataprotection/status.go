@@ -11,13 +11,13 @@ import (
 	statusmodel "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/status"
 )
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionStatus Status of the DataProtection configure resource.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionStatus Status of the DataProtection configure resource.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.Status.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionStatus struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionStatus struct {
 
 	// A list of available phases for data protection object.
-	AvailablePhases []*VmwareTanzuManageV1alpha1ClusterDataprotectionStatusPhase `json:"availablePhases"`
+	AvailablePhases []*VmwareTanzuManageV1alpha1ClusterDataProtectionStatusPhase `json:"availablePhases"`
 
 	// The conditions attached to this data protection object.
 	// The description of the conditions is as follows:
@@ -34,7 +34,7 @@ type VmwareTanzuManageV1alpha1ClusterDataprotectionStatus struct {
 	ObservedGeneration string `json:"observedGeneration,omitempty"`
 
 	// The overall phase of the data protection.
-	Phase *VmwareTanzuManageV1alpha1ClusterDataprotectionStatusPhase `json:"phase,omitempty"`
+	Phase *VmwareTanzuManageV1alpha1ClusterDataProtectionStatusPhase `json:"phase,omitempty"`
 
 	// Additional info about the phase.
 	PhaseInfo string `json:"phaseInfo,omitempty"`
@@ -44,7 +44,7 @@ type VmwareTanzuManageV1alpha1ClusterDataprotectionStatus struct {
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionStatus) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionStatus) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -53,8 +53,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionStatus) MarshalBinary() (
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionStatus) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionStatus
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionStatus) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionStatus
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err

@@ -3,7 +3,7 @@ Copyright © 2023 VMware, Inc. All Rights Reserved.
 SPDX-License-Identifier: MPL-2.0
 */
 
-package backupschedulemodels
+package clusterbackupschedule
 
 import (
 	"github.com/go-openapi/strfmt"
@@ -12,13 +12,13 @@ import (
 	statusmodel "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/status"
 )
 
-// VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatus Status of the schedule resource.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatus Status of the schedule resource.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.schedule.Status.
-type VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatus struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatus struct {
 
 	// A list of available phases for schedule object.
-	AvailablePhases []*VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatusPhase `json:"availablePhases"`
+	AvailablePhases []*VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatusPhase `json:"availablePhases"`
 
 	// The conditions attached to this backup object.
 	// The description of the conditions is as follows:
@@ -37,7 +37,7 @@ type VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatus struct {
 	ObservedGeneration string `json:"observedGeneration,omitempty"`
 
 	// The current phase of the Schedule.
-	Phase *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatusPhase `json:"phase,omitempty"`
+	Phase *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatusPhase `json:"phase,omitempty"`
 
 	// Additional info about the phase.
 	PhaseInfo string `json:"phaseInfo,omitempty"`
@@ -47,7 +47,7 @@ type VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatus struct {
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatus) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatus) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -56,8 +56,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatus) MarshalBi
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatus) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatus
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatus) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatus
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
