@@ -1,6 +1,3 @@
-//go:build backupschedule
-// +build backupschedule
-
 /*
 Copyright © 2023 VMware, Inc. All Rights Reserved.
 SPDX-License-Identifier: MPL-2.0
@@ -20,8 +17,9 @@ import (
 
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/authctx"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/proxy"
-	backupschedulemodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/cluster/backupschedule"
-	backupscheduleres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster/backupschedule"
+	commonbackupmodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/backup/common"
+	backupcommon "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup"
+	backupscheduleres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup/schedule"
 	testhelper "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/testing"
 )
 
@@ -114,7 +112,7 @@ func verifyBackupScheduleResourceCreation(
 			return fmt.Errorf("ID not set, resource %s", resourceName)
 		}
 
-		fn := &backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleFullName{
+		fn := &commonbackupmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupFullName{
 			Name:                  backupScheduleName,
 			ManagementClusterName: testScopeHelper.Cluster.ManagementClusterName,
 			ClusterName:           testScopeHelper.Cluster.Name,
@@ -155,7 +153,7 @@ func verifyBackupScheduleDataSource(
 			return fmt.Errorf("ID not set, data source %s", dataSourceName)
 		}
 
-		firstTargetLocation := fmt.Sprintf("%s.0.%s", backupscheduleres.SchedulesKey, backupscheduleres.NameKey)
+		firstTargetLocation := fmt.Sprintf("%s.0.%s", backupscheduleres.SchedulesKey, backupcommon.NameKey)
 
 		if rs.Primary.Attributes[firstTargetLocation] != backupScheduleName {
 			return fmt.Errorf("target location wasn't found at index 0 (%s)", backupScheduleName)

@@ -12,10 +12,10 @@ import (
 	objectmetamodel "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/objectmeta"
 )
 
-// VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule A pre-scheduled or periodic Backup that should be run.
+// VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule A pre-scheduled or periodic Backup that should be run.
 //
 // swagger:model vmware.tanzu.manage.v1alpha1.cluster.dataprotection.schedule.Schedule.
-type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule struct {
+type VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule struct {
 
 	// Full name for the Schedule.
 	FullName *backupcommon.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupFullName `json:"fullName,omitempty"`
@@ -34,7 +34,7 @@ type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule struct {
 }
 
 // MarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule) MarshalBinary() ([]byte, error) {
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -43,8 +43,8 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule) Marshal
 }
 
 // UnmarshalBinary interface implementation.
-func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule) UnmarshalBinary(b []byte) error {
-	var res VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule
+func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule) UnmarshalBinary(b []byte) error {
+	var res VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule
 
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err

@@ -1,6 +1,3 @@
-//go:build backupschedule
-// +build backupschedule
-
 /*
 Copyright © 2023 VMware, Inc. All Rights Reserved.
 SPDX-License-Identifier: MPL-2.0
@@ -15,8 +12,8 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/authctx"
+	backupscheduleres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup/schedule"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster"
-	backupscheduleres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster/backupschedule"
 	dataprotectionres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster/dataprotection"
 	commonscope "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/common/scope"
 	targetlocationres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/targetlocation"

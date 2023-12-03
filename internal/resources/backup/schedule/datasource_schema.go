@@ -7,6 +7,8 @@ package backupschedule
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	backupcommon "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup"
 )
 
 const (
@@ -79,7 +81,7 @@ var (
 	}
 
 	backupScheduleDataSourceSchema = map[string]*schema.Schema{
-		NameKey:              nameDSSchema,
+		backupcommon.NameKey: nameDSSchema,
 		ScopeKey:             searchScopeSchema,
 		SortByKey:            sortBySchema,
 		QueryKey:             querySchema,
@@ -103,9 +105,9 @@ var searchScopeSchema = &schema.Schema{
 				MaxItems:    1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						ClusterNameKey:           clusterNameSchema,
-						ManagementClusterNameKey: managementClusterNameDSSchema,
-						ProvisionerNameKey:       provisionerNameDSSchema,
+						backupcommon.ClusterNameKey:           clusterNameSchema,
+						backupcommon.ManagementClusterNameKey: managementClusterNameDSSchema,
+						backupcommon.ProvisionerNameKey:       provisionerNameDSSchema,
 					},
 				},
 			},

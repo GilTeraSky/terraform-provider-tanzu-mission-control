@@ -7,6 +7,8 @@ package clusterbackupschedule
 
 import (
 	"github.com/go-openapi/swag"
+
+	backupcommon "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/backup/common"
 )
 
 // VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSpec The schedule spec.
@@ -21,7 +23,7 @@ type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSpec struct {
 	Schedule *VmwareTanzuManageV1alpha1CommonScheduleSchedule `json:"schedule,omitempty"`
 
 	// The definition of the Backup to be run on the provided schedule.
-	Template *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSpec `json:"template,omitempty"`
+	Template *backupcommon.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSpec `json:"template,omitempty"`
 }
 
 // MarshalBinary interface implementation.

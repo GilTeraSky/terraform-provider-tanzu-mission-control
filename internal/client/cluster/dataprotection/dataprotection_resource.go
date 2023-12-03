@@ -33,21 +33,21 @@ type Client struct {
 
 // ClientService is the interface for Client methods.
 type ClientService interface {
-	DataProtectionResourceServiceCreate(request *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse, error)
+	DataProtectionResourceServiceCreate(request *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse, error)
 
-	DataProtectionResourceServiceDelete(fn *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionFullName, destroyBackups bool) error
+	DataProtectionResourceServiceDelete(fn *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionFullName, destroyBackups bool) error
 
-	DataProtectionResourceServiceList(fn *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionFullName) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsResponse, error)
+	DataProtectionResourceServiceList(fn *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionFullName) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionListDataProtectionsResponse, error)
 
-	DataProtectionResourceServiceUpdate(request *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse, error)
+	DataProtectionResourceServiceUpdate(request *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse, error)
 }
 
 /*
 DataProtectionResourceServiceCreate enables data protection on a cluster.
 */
-func (c *Client) DataProtectionResourceServiceCreate(request *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest,
-) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse, error) {
-	response := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse{}
+func (c *Client) DataProtectionResourceServiceCreate(request *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest,
+) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse, error) {
+	response := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse{}
 	requestURL := helper.ConstructRequestURL(apiVersionAndGroup, request.DataProtection.FullName.ClusterName, dataProtectionPath).String()
 	err := c.Create(requestURL, request, response)
 
@@ -57,7 +57,7 @@ func (c *Client) DataProtectionResourceServiceCreate(request *dataprotectionmode
 /*
 DataProtectionResourceServiceDelete disables data protection on a cluster.
 */
-func (c *Client) DataProtectionResourceServiceDelete(fn *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionFullName, deleteBackups bool) error {
+func (c *Client) DataProtectionResourceServiceDelete(fn *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionFullName, deleteBackups bool) error {
 	requestURL := helper.ConstructRequestURL(apiVersionAndGroup, fn.ClusterName, dataProtectionPath)
 	queryParams := url.Values{}
 
@@ -73,7 +73,7 @@ func (c *Client) DataProtectionResourceServiceDelete(fn *dataprotectionmodels.Vm
 /*
 DataProtectionResourceServiceList gets data protection details.
 */
-func (c *Client) DataProtectionResourceServiceList(fn *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionFullName) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsResponse, error) {
+func (c *Client) DataProtectionResourceServiceList(fn *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionFullName) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionListDataProtectionsResponse, error) {
 	requestURL := helper.ConstructRequestURL(apiVersionAndGroup, fn.ClusterName, dataProtectionPath)
 	queryParams := url.Values{}
 
@@ -89,7 +89,7 @@ func (c *Client) DataProtectionResourceServiceList(fn *dataprotectionmodels.Vmwa
 		requestURL = requestURL.AppendQueryParams(queryParams)
 	}
 
-	resp := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsResponse{}
+	resp := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionListDataProtectionsResponse{}
 	err := c.Get(requestURL.String(), resp)
 
 	return resp, err
@@ -98,9 +98,9 @@ func (c *Client) DataProtectionResourceServiceList(fn *dataprotectionmodels.Vmwa
 /*
 DataProtectionResourceServiceUpdate updates a data protection configuration on a cluster.
 */
-func (c *Client) DataProtectionResourceServiceUpdate(request *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest,
-) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse, error) {
-	response := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionResponse{}
+func (c *Client) DataProtectionResourceServiceUpdate(request *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest,
+) (*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse, error) {
+	response := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionResponse{}
 	requestURL := helper.ConstructRequestURL(apiVersionAndGroup, request.DataProtection.FullName.ClusterName, dataProtectionPath).String()
 	err := c.Update(requestURL, request, response)
 

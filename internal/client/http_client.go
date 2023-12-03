@@ -11,8 +11,9 @@ import (
 
 	aksclusterclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/akscluster"
 	aksnodepoolclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/akscluster/nodepool"
+	backupscheduleclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/backup/schedule"
+	backupsclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/backup/standalone"
 	clusterclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/cluster"
-	backupscheduleclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/cluster/backupschedule"
 	continuousdeliveryclusterclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/cluster/continuousdelivery"
 	dataprotectionclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/cluster/dataprotection"
 	gitrepositoryclusterclient "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/cluster/gitrepository"
@@ -142,6 +143,7 @@ func newHTTPClient(httpClient *transport.Client) *TanzuMissionControl {
 		ManagementClusterRegistrationResourceService:  managementclusterregistrationclient.New(httpClient),
 		ClusterClassResourceService:                   clusterclassclient.New(httpClient),
 		TanzuKubernetesClusterResourceService:         tanzukubernetesclusterclient.New(httpClient),
+		BackupsResourceService:                        backupsclient.New(httpClient),
 	}
 }
 
@@ -199,4 +201,5 @@ type TanzuMissionControl struct {
 	ManagementClusterRegistrationResourceService  managementclusterregistrationclient.ClientService
 	ClusterClassResourceService                   clusterclassclient.ClientService
 	TanzuKubernetesClusterResourceService         tanzukubernetesclusterclient.ClientService
+	BackupsResourceService                        backupsclient.ClientService
 }

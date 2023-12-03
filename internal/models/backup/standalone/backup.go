@@ -24,7 +24,7 @@ type VmwareTanzuManageV1alpha1ClusterDataProtectionBackup struct {
 	Meta *objectmetamodel.VmwareTanzuCoreV1alpha1ObjectMeta `json:"meta,omitempty"`
 
 	// Spec for the backup.
-	Spec *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSpec `json:"spec,omitempty"`
+	Spec *backupcommon.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSpec `json:"spec,omitempty"`
 
 	// Status of the backup.
 	Status *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupStatus `json:"status,omitempty"`

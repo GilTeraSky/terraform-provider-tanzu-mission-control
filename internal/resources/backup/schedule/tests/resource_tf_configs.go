@@ -9,8 +9,9 @@ import (
 	"fmt"
 	"strings"
 
+	backupcommon "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup"
+	backupscheduleres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup/schedule"
 	clusterres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster"
-	backupscheduleres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster/backupschedule"
 	dataprotectiontests "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster/dataprotection/tests"
 	commonscope "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/common/scope"
 	targetlocationres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/targetlocation"
@@ -81,9 +82,9 @@ func InitResourceTFConfigBuilder(scopeHelper *commonscope.ScopeHelperResources, 
 		%s = %s        
 		%s = %s  
 		`,
-		backupscheduleres.ClusterNameKey, clusterName,
-		backupscheduleres.ManagementClusterNameKey, mgmtClusterName,
-		backupscheduleres.ProvisionerNameKey, provisionerName)
+		backupcommon.ClusterNameKey, clusterName,
+		backupcommon.ManagementClusterNameKey, mgmtClusterName,
+		backupcommon.ProvisionerNameKey, provisionerName)
 
 	targetLocationInfo := fmt.Sprintf("storage_location = %s.%s", targetlocationtests.TmcManagedResourceFullName, targetlocationres.NameKey)
 
@@ -143,7 +144,7 @@ func (builder *ResourceTFConfigBuilder) GetFullClusterBackupScheduleConfig() str
 		FullClusterBackupScheduleResourceName,
 		FullClusterBackupScheduleName,
 		builder.ClusterInfo,
-		backupscheduleres.FullClusterBackupScope,
+		backupcommon.FullClusterBackupScope,
 		builder.TargetLocationInfo,
 		dataprotectiontests.EnableDataProtectionResourceFullName,
 		targetlocationtests.TmcManagedResourceFullName)
@@ -233,7 +234,7 @@ func (builder *ResourceTFConfigBuilder) GetNamespacesBackupScheduleConfig() stri
 		NamespacesBackupScheduleResourceName,
 		NamespacesBackupScheduleName,
 		builder.ClusterInfo,
-		backupscheduleres.NamespacesBackupScope,
+		backupcommon.NamespacesBackupScope,
 		builder.TargetLocationInfo,
 		dataprotectiontests.EnableDataProtectionResourceFullName,
 		targetlocationtests.TmcManagedResourceFullName)
@@ -287,7 +288,7 @@ func (builder *ResourceTFConfigBuilder) GetLabelsBackupScheduleConfig() string {
 		LabelsBackupScheduleResourceName,
 		LabelsBackupScheduleName,
 		builder.ClusterInfo,
-		backupscheduleres.LabelSelectorBackupScope,
+		backupcommon.LabelSelectorBackupScope,
 		builder.TargetLocationInfo,
 		dataprotectiontests.EnableDataProtectionResourceFullName,
 		targetlocationtests.TmcManagedResourceFullName)

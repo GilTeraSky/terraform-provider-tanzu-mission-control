@@ -83,7 +83,7 @@ func verifyEnableDataProtectionResourceCreation(
 			return fmt.Errorf("ID not set, resource %s", resourceName)
 		}
 
-		fn := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionFullName{
+		fn := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionFullName{
 			ClusterName:           testScopeHelper.Cluster.Name,
 			ManagementClusterName: testScopeHelper.Cluster.ManagementClusterName,
 			ProvisionerName:       testScopeHelper.Cluster.ProvisionerName,

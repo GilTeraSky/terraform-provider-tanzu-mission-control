@@ -15,7 +15,7 @@ import (
 type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleRequest struct {
 
 	// Schedule updated.
-	Schedule *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule `json:"schedule,omitempty"`
+	Schedule *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule `json:"schedule,omitempty"`
 }
 
 // MarshalBinary interface implementation.
@@ -46,7 +46,7 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleRequest) Unmarsha
 type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse struct {
 
 	// Schedule updated.
-	Schedule *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule `json:"schedule,omitempty"`
+	Schedule *VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule `json:"schedule,omitempty"`
 }
 
 // MarshalBinary interface implementation.
@@ -77,7 +77,7 @@ func (m *VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse) Unmarsh
 type VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleListSchedulesResponse struct {
 
 	// List of schedules.
-	Schedules []*VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleSchedule `json:"schedules"`
+	Schedules []*VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule `json:"schedules"`
 
 	// Total count.
 	TotalCount string `json:"totalCount,omitempty"`

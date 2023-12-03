@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/authctx"
-	backupschedulemodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/cluster/backupschedule"
+	clusterbackupschedulemodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/backup/schedule/cluster"
 )
 
 func DataSourceBackupSchedule() *schema.Resource {
@@ -28,7 +28,7 @@ func DataSourceBackupSchedule() *schema.Resource {
 }
 
 func dataSourceTargetLocationRead(ctx context.Context, data *schema.ResourceData, m interface{}) (diags diag.Diagnostics) {
-	var resp *backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleListSchedulesResponse
+	var resp *clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleListSchedulesResponse
 
 	config := m.(authctx.TanzuContext)
 	request, err := tfModelDataSourceRequestConverter.ConvertTFSchemaToAPIModel(data, []string{})

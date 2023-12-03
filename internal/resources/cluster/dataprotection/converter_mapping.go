@@ -27,6 +27,6 @@ var tfModelMap = &tfModelConverterHelper.BlockToStruct{
 	},
 }
 
-var tfModelConverter = tfModelConverterHelper.TFSchemaModelConverter[*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionDataProtection]{
+var tfModelConverter = tfModelConverterHelper.TFSchemaModelConverter[*dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionDataProtection]{
 	TFModelMap: tfModelMap,
 }

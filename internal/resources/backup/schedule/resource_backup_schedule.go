@@ -18,7 +18,9 @@ import (
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/authctx"
 	clienterrors "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/errors"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/helper"
-	backupschedulemodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/cluster/backupschedule"
+	commonbackupmodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/backup/common"
+	clusterbackupschedulemodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/backup/schedule/cluster"
+	backupcommon "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup"
 )
 
 func ResourceBackupSchedule() *schema.Resource {
@@ -42,13 +44,13 @@ func resourceBackupScheduleCreate(ctx context.Context, data *schema.ResourceData
 		return diag.FromErr(errors.Wrapf(err, "Couldn't create Tanzu Mission Control backup schedule."))
 	}
 
-	diags = validateSchema(model, BackupScope(data.Get(BackupScopeKey).(string)))
+	diags = validateSchema(model, backupcommon.BackupScope(data.Get(BackupScopeKey).(string)))
 
 	if diags.HasError() {
 		return diags
 	}
 
-	request := &backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleRequest{
+	request := &clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleRequest{
 		Schedule: model,
 	}
 
@@ -63,10 +65,10 @@ func resourceBackupScheduleCreate(ctx context.Context, data *schema.ResourceData
 }
 
 func resourceBackupScheduleRead(ctx context.Context, data *schema.ResourceData, m interface{}) (diags diag.Diagnostics) {
-	var resp *backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleResponse
+	var resp *clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse
 
 	config := m.(authctx.TanzuContext)
-	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{ScopeKey, ClusterScopeKey, ClusterNameKey, ManagementClusterNameKey, ProvisionerNameKey})
+	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{ScopeKey, ClusterScopeKey, backupcommon.ClusterNameKey, backupcommon.ManagementClusterNameKey, backupcommon.ProvisionerNameKey})
 
 	if err != nil {
 		return diag.FromErr(errors.Wrapf(err, "Couldn't read Tanzu Mission Control backup schedule."))
@@ -74,7 +76,7 @@ func resourceBackupScheduleRead(ctx context.Context, data *schema.ResourceData, 
 
 	backupScheduleFn := model.FullName
 
-	if name, ok := data.GetOk(NameKey); ok {
+	if name, ok := data.GetOk(backupcommon.NameKey); ok {
 		backupScheduleFn.Name = name.(string)
 	} else {
 		return diag.Errorf("Couldn't read Tanzu Mission Control backup name.")
@@ -100,7 +102,7 @@ func resourceBackupScheduleRead(ctx context.Context, data *schema.ResourceData, 
 		return diag.FromErr(errors.Wrapf(err, "Couldn't read backup schedule.\nManagement Cluster Name: %s, Provisioner Name: %s, Cluster Name: %s, Schedule Name: %s",
 			backupScheduleFn.ManagementClusterName, backupScheduleFn.ProvisionerName, backupScheduleFn.ClusterName, backupScheduleFn.Name))
 	} else if resp != nil {
-		userExcludedNamespaces := getExcludedNamespaces(data, ExcludedNamespacesKey)
+		userExcludedNamespaces := getExcludedNamespaces(data, backupcommon.ExcludedNamespacesKey)
 		systemExcludedNamespaces := getResponseSystemExcludedNamespaces(resp.Schedule, userExcludedNamespaces)
 		resp.Schedule.Spec.Template.ExcludedNamespaces = userExcludedNamespaces
 
@@ -126,7 +128,7 @@ func resourceBackupScheduleRead(ctx context.Context, data *schema.ResourceData, 
 
 func resourceBackupScheduleDelete(ctx context.Context, data *schema.ResourceData, m interface{}) (diags diag.Diagnostics) {
 	config := m.(authctx.TanzuContext)
-	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{ScopeKey, ClusterScopeKey, ClusterNameKey, ManagementClusterNameKey, ProvisionerNameKey})
+	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{ScopeKey, ClusterScopeKey, backupcommon.ClusterNameKey, backupcommon.ManagementClusterNameKey, backupcommon.ProvisionerNameKey})
 
 	if err != nil {
 		return diag.FromErr(errors.Wrapf(err, "Couldn't delete Tanzu Mission Control backup schedule."))
@@ -134,7 +136,7 @@ func resourceBackupScheduleDelete(ctx context.Context, data *schema.ResourceData
 
 	backupScheduleFn := model.FullName
 
-	if name, ok := data.GetOk(NameKey); ok {
+	if name, ok := data.GetOk(backupcommon.NameKey); ok {
 		backupScheduleFn.Name = name.(string)
 	} else {
 		return diag.Errorf("Couldn't read Tanzu Mission Control backup name.")
@@ -158,16 +160,16 @@ func resourceBackupScheduleUpdate(ctx context.Context, data *schema.ResourceData
 		return diag.FromErr(errors.Wrapf(err, "Couldn't update Tanzu Mission Control backup schedule."))
 	}
 
-	diags = validateSchema(model, BackupScope(data.Get(BackupScopeKey).(string)))
+	diags = validateSchema(model, backupcommon.BackupScope(data.Get(BackupScopeKey).(string)))
 
 	if diags.HasError() {
 		return diags
 	}
 
-	systemExcludedNamespaces := getExcludedNamespaces(data, SystemExcludedNamespacesKey)
+	systemExcludedNamespaces := getExcludedNamespaces(data, backupcommon.SystemExcludedNamespacesKey)
 	model.Spec.Template.ExcludedNamespaces = append(model.Spec.Template.ExcludedNamespaces, systemExcludedNamespaces...)
 
-	request := &backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleRequest{
+	request := &clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleRequest{
 		Schedule: model,
 	}
 
@@ -195,7 +197,7 @@ func resourceBackupScheduleImporter(ctx context.Context, data *schema.ResourceDa
 		return nil, errors.Errorf("Invalid backup schedule ID.\nBackup schedule id should consists of a full cluster name and the schedule name separated by '/'.\nProvided ID: %s", backupScheduleID)
 	}
 
-	backupScheduleFn := &backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleFullName{
+	backupScheduleFn := &commonbackupmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupFullName{
 		ManagementClusterName: namesArray[0],
 		ProvisionerName:       namesArray[1],
 		ClusterName:           namesArray[2],
@@ -207,7 +209,7 @@ func resourceBackupScheduleImporter(ctx context.Context, data *schema.ResourceDa
 		return nil, errors.Errorf("Couldn't import backup schedule.\nManagement Cluster Name: %s, Provisioner Name: %s, Cluster Name: %s, Schedule Name: %s",
 			backupScheduleFn.ManagementClusterName, backupScheduleFn.ProvisionerName, backupScheduleFn.ClusterName, backupScheduleFn.Name)
 	} else {
-		userExcludedNamespaces := getExcludedNamespaces(data, ExcludedNamespacesKey)
+		userExcludedNamespaces := getExcludedNamespaces(data, backupcommon.ExcludedNamespacesKey)
 		systemExcludedNamespaces := getResponseSystemExcludedNamespaces(resp.Schedule, userExcludedNamespaces)
 		resp.Schedule.Spec.Template.ExcludedNamespaces = userExcludedNamespaces
 
@@ -227,19 +229,19 @@ func resourceBackupScheduleImporter(ctx context.Context, data *schema.ResourceDa
 	return []*schema.ResourceData{data}, err
 }
 
-func readResourceWait(ctx context.Context, config *authctx.TanzuContext, resourceFullName *backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleFullName) (resp *backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleResponse, err error) {
-	stopStatuses := map[backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatusPhase]bool{
-		backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatusPhaseFAILEDVALIDATION: true,
-		backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatusPhaseENABLED:          true,
-		backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatusPhasePAUSED:           true,
+func readResourceWait(ctx context.Context, config *authctx.TanzuContext, resourceFullName *commonbackupmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupFullName) (resp *clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse, err error) {
+	stopStatuses := map[clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatusPhase]bool{
+		clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatusPhaseFAILEDVALIDATION: true,
+		clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatusPhaseENABLED:          true,
+		clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatusPhasePAUSED:           true,
 	}
 
-	responseStatus := backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatusPhasePHASEUNSPECIFIED
+	responseStatus := clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatusPhasePHASEUNSPECIFIED
 	_, isStopStatus := stopStatuses[responseStatus]
 	isCtxCallerSet := helper.IsContextCallerSet(ctx)
 
 	for !isStopStatus {
-		if isCtxCallerSet || (!isCtxCallerSet && responseStatus != backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatusPhasePHASEUNSPECIFIED) {
+		if isCtxCallerSet || (!isCtxCallerSet && responseStatus != clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatusPhasePHASEUNSPECIFIED) {
 			time.Sleep(5 * time.Second)
 		}
 
@@ -253,7 +255,7 @@ func readResourceWait(ctx context.Context, config *authctx.TanzuContext, resourc
 		_, isStopStatus = stopStatuses[responseStatus]
 	}
 
-	if responseStatus == backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleStatusPhaseFAILEDVALIDATION {
+	if responseStatus == clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleStatusPhaseFAILEDVALIDATION {
 		err = errors.Errorf("Failed validation of backup schedule '%s' in cluster: %s/%s/%s", resourceFullName.Name,
 			resourceFullName.ManagementClusterName, resourceFullName.ProvisionerName, resourceFullName.ClusterName)
 
@@ -263,9 +265,9 @@ func readResourceWait(ctx context.Context, config *authctx.TanzuContext, resourc
 	return resp, err
 }
 
-func validateSchema(scheduleModel *backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSchedule, scope BackupScope) (diags diag.Diagnostics) {
+func validateSchema(scheduleModel *clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule, scope backupcommon.BackupScope) (diags diag.Diagnostics) {
 	switch scope {
-	case FullClusterBackupScope:
+	case backupcommon.FullClusterBackupScope:
 		if len(scheduleModel.Spec.Template.IncludedNamespaces) > 0 {
 			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Included namespaces can't be configured when scope is %s", scope))
 			diags = append(diags, d)
@@ -280,7 +282,7 @@ func validateSchema(scheduleModel *backupschedulemodels.VmwareTanzuManageV1alpha
 			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Or lables selectors can't be configured when scope is %s", scope))
 			diags = append(diags, d)
 		}
-	case NamespacesBackupScope:
+	case backupcommon.NamespacesBackupScope:
 		if len(scheduleModel.Spec.Template.IncludedNamespaces) == 0 {
 			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Included namespaces must be configured when scope is %s", scope))
 			diags = append(diags, d)
@@ -301,7 +303,7 @@ func validateSchema(scheduleModel *backupschedulemodels.VmwareTanzuManageV1alpha
 			diags = append(diags, d)
 		}
 
-	case LabelSelectorBackupScope:
+	case backupcommon.LabelSelectorBackupScope:
 		if scheduleModel.Spec.Template.LabelSelector == nil && scheduleModel.Spec.Template.OrLabelSelectors == nil {
 			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Or/Lable selectors must be configured when scope is %s", scope))
 			diags = append(diags, d)
@@ -316,7 +318,7 @@ func validateSchema(scheduleModel *backupschedulemodels.VmwareTanzuManageV1alpha
 	return diags
 }
 
-func getResponseSystemExcludedNamespaces(scheduleModel *backupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataprotectionScheduleSchedule, userExcludedNamespaces []string) []string {
+func getResponseSystemExcludedNamespaces(scheduleModel *clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule, userExcludedNamespaces []string) []string {
 	var systemExcludedNamespaces []string
 
 	for _, responseNs := range scheduleModel.Spec.Template.ExcludedNamespaces {
@@ -346,23 +348,23 @@ func buildValidationErrorDiag(msg string) diag.Diagnostic {
 }
 
 func getExcludedNamespaces(data *schema.ResourceData, excludedNsKey string) []string {
-	specData := data.Get(SpecKey).([]interface{})[0].(map[string]interface{})
+	specData := data.Get(backupcommon.SpecKey).([]interface{})[0].(map[string]interface{})
 	template := specData[TemplateKey].([]interface{})[0].(map[string]interface{})
 
 	return helper.SetPrimitiveList[string](template[excludedNsKey], "")
 }
 
 func setSystemExcludedNamespaces(data *schema.ResourceData, systemExcludedNamespaces []string) {
-	specData := data.Get(SpecKey).([]interface{})[0].(map[string]interface{})
+	specData := data.Get(backupcommon.SpecKey).([]interface{})[0].(map[string]interface{})
 	template := specData[TemplateKey].([]interface{})[0].(map[string]interface{})
-	template[SystemExcludedNamespacesKey] = systemExcludedNamespaces
+	template[backupcommon.SystemExcludedNamespacesKey] = systemExcludedNamespaces
 
-	_ = data.Set(SpecKey, []interface{}{specData})
+	_ = data.Set(backupcommon.SpecKey, []interface{}{specData})
 }
 
 func getSchemaCsiSnapshotTimeout(data *schema.ResourceData) string {
-	specData := data.Get(SpecKey).([]interface{})[0].(map[string]interface{})
+	specData := data.Get(backupcommon.SpecKey).([]interface{})[0].(map[string]interface{})
 	template := specData[TemplateKey].([]interface{})[0].(map[string]interface{})
 
-	return template[CsiSnapshotTimeoutKey].(string)
+	return template[backupcommon.CsiSnapshotTimeoutKey].(string)
 }

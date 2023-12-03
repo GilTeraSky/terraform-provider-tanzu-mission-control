@@ -41,12 +41,12 @@ func resourceEnableDataProtectionCreate(ctx context.Context, data *schema.Resour
 		return diag.FromErr(errors.Wrapf(err, "Couldn't create Tanzu Mission Control data protection configurations."))
 	}
 
-	request := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest{
+	request := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest{
 		DataProtection: model,
 	}
 
 	if request.DataProtection.Spec == nil {
-		request.DataProtection.Spec = &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionSpec{}
+		request.DataProtection.Spec = &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionSpec{}
 	}
 
 	_, err = config.TMCConnection.DataProtectionService.DataProtectionResourceServiceCreate(request)
@@ -60,7 +60,7 @@ func resourceEnableDataProtectionCreate(ctx context.Context, data *schema.Resour
 }
 
 func resourceEnableDataProtectionRead(ctx context.Context, data *schema.ResourceData, m interface{}) (diags diag.Diagnostics) {
-	var resp *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsResponse
+	var resp *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionListDataProtectionsResponse
 
 	config := m.(authctx.TanzuContext)
 	model, err := tfModelConverter.ConvertTFSchemaToAPIModel(data, []string{ScopeKey, ClusterScopeKey, ClusterNameKey, ProvisionerNameKey, ManagementClusterNameKey})
@@ -156,12 +156,12 @@ func resourceEnableDataProtectionUpdate(ctx context.Context, data *schema.Resour
 		return diag.FromErr(errors.Wrapf(err, "Couldn't update Tanzu Mission Control data protection configurations."))
 	}
 
-	request := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionCreateDataProtectionRequest{
+	request := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionCreateDataProtectionRequest{
 		DataProtection: model,
 	}
 
 	if request.DataProtection.Spec == nil {
-		request.DataProtection.Spec = &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionSpec{}
+		request.DataProtection.Spec = &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionSpec{}
 	}
 
 	_, err = config.TMCConnection.DataProtectionService.DataProtectionResourceServiceUpdate(request)
@@ -183,7 +183,7 @@ func resourceEnableDataProtectionImporter(ctx context.Context, data *schema.Reso
 		return nil, errors.New("Cluster ID must be comprised of management_cluster_name, provisioner_name and cluster_name - separated by /")
 	}
 
-	clusterFn := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionFullName{
+	clusterFn := &dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionFullName{
 		ManagementClusterName: clusterFullNameParts[0],
 		ProvisionerName:       clusterFullNameParts[1],
 		ClusterName:           clusterFullNameParts[2],
@@ -212,18 +212,18 @@ func resourceEnableDataProtectionImporter(ctx context.Context, data *schema.Reso
 	return []*schema.ResourceData{data}, err
 }
 
-func readResourceWait(ctx context.Context, config *authctx.TanzuContext, resourceFullName *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionFullName) (resp *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionListDataProtectionsResponse, err error) {
-	stopStatuses := map[dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionStatusPhase]bool{
-		dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionStatusPhaseERROR: true,
-		dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionStatusPhaseREADY: true,
+func readResourceWait(ctx context.Context, config *authctx.TanzuContext, resourceFullName *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionFullName) (resp *dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionListDataProtectionsResponse, err error) {
+	stopStatuses := map[dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionStatusPhase]bool{
+		dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionStatusPhaseERROR: true,
+		dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionStatusPhaseREADY: true,
 	}
 
-	responseStatus := dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionStatusPhasePHASEUNSPECIFIED
+	responseStatus := dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionStatusPhasePHASEUNSPECIFIED
 	_, isStopStatus := stopStatuses[responseStatus]
 	isCtxCallerSet := helper.IsContextCallerSet(ctx)
 
 	for !isStopStatus {
-		if isCtxCallerSet || (!isCtxCallerSet && responseStatus != dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionStatusPhasePHASEUNSPECIFIED) {
+		if isCtxCallerSet || (!isCtxCallerSet && responseStatus != dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionStatusPhasePHASEUNSPECIFIED) {
 			time.Sleep(5 * time.Second)
 		}
 
@@ -238,7 +238,7 @@ func readResourceWait(ctx context.Context, config *authctx.TanzuContext, resourc
 		_, isStopStatus = stopStatuses[responseStatus]
 	}
 
-	if responseStatus == dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataprotectionStatusPhaseERROR {
+	if responseStatus == dataprotectionmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionStatusPhaseERROR {
 		dataProtectionFn := resp.DataProtections[0].FullName
 		err = errors.Errorf("data protection configurations errored.\nManagement Cluster Name: %s, Provisioner Name: %s, Cluster Name: %s",
 			dataProtectionFn.ManagementClusterName, dataProtectionFn.ProvisionerName, dataProtectionFn.ClusterName)

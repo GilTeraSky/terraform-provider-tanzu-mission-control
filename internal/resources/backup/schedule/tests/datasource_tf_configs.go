@@ -8,7 +8,9 @@ package backupscheduletests
 import (
 	"fmt"
 
-	backupscheduleres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster/backupschedule"
+	backupcommon "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup"
+	backupscheduleres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup/schedule"
+	clusterres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster"
 	commonscope "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/common/scope"
 )
 
@@ -39,9 +41,21 @@ func InitDataSourceTFConfigBuilder(scopeHelper *commonscope.ScopeHelperResources
 		backupScheduleRequiredResource = resourceConfigBuilder.GetLabelsBackupScheduleConfig()
 	}
 
+	mgmtClusterName := fmt.Sprintf("%s.%s", scopeHelper.Cluster.ResourceName, clusterres.ManagementClusterNameKey)
+	clusterName := fmt.Sprintf("%s.%s", scopeHelper.Cluster.ResourceName, clusterres.NameKey)
+	provisionerName := fmt.Sprintf("%s.%s", scopeHelper.Cluster.ResourceName, clusterres.ProvisionerNameKey)
+	clusterInfo := fmt.Sprintf(`
+		%s = %s
+		%s = %s        
+		%s = %s  
+		`,
+		backupcommon.ClusterNameKey, clusterName,
+		backupcommon.ManagementClusterNameKey, mgmtClusterName,
+		backupcommon.ProvisionerNameKey, provisionerName)
+
 	tfConfigBuilder := &DataSourceTFConfigBuilder{
 		BackupScheduleRequiredResource: backupScheduleRequiredResource,
-		ClusterInfo:                    fmt.Sprintf("%s = \"%s\"", backupscheduleres.ClusterNameKey, scopeHelper.Cluster.Name),
+		ClusterInfo:                    clusterInfo,
 	}
 
 	return tfConfigBuilder
