@@ -3,9 +3,13 @@ Copyright © 2023 VMware, Inc. All Rights Reserved.
 SPDX-License-Identifier: MPL-2.0
 */
 
-package backup
+package pbackup
 
 import (
+	"fmt"
+	"strings"
+
+	"github.com/pkg/errors"
 	commonbackupmodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/backup/common"
 )
 
@@ -20,9 +24,13 @@ const (
 const (
 
 	// Root Keys.
-	NameKey                  = "name"
+	ScopeKey       = "scope"
+	NameKey        = "name"
+	BackupScopeKey = "backup_scope"
+	SpecKey        = "spec"
+
+	// Spec/Template Directive Keys.
 	ClusterNameKey           = "cluster_name"
-	SpecKey                  = "spec"
 	ProvisionerNameKey       = "provisioner_name"
 	ManagementClusterNameKey = "management_cluster_name"
 
@@ -78,3 +86,57 @@ var (
 		string(commonbackupmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupHookErrorModeCONTINUE),
 	}
 )
+
+func ValidateSchema(backupSpecData map[string]interface{}, scope BackupScope) (err error) {
+	errMsgs := make([]string, 0)
+	includedNamespaces := backupSpecData[IncludedNamespacesKey].([]interface{})
+	excludedNamespaces := backupSpecData[ExcludedNamespacesKey].([]interface{})
+	orLabelSelector := backupSpecData[OrLabelSelectorKey].([]interface{})
+	labelSelector := backupSpecData[LabelSelectorKey].([]interface{})
+
+	switch scope {
+	case FullClusterBackupScope:
+		if len(includedNamespaces) > 0 {
+			errMsgs = append(errMsgs, fmt.Sprintf("Included namespaces can't be configured when scope is %s", scope))
+		}
+
+		if len(labelSelector) > 0 {
+			errMsgs = append(errMsgs, fmt.Sprintf("Lablel selectors can't be configured when scope is %s", scope))
+		}
+
+		if len(orLabelSelector) > 0 {
+			errMsgs = append(errMsgs, fmt.Sprintf("Or lables selectors can't be configured when scope is %s", scope))
+		}
+	case NamespacesBackupScope:
+		if len(includedNamespaces) == 0 {
+			errMsgs = append(errMsgs, fmt.Sprintf("Included namespaces must be configured when scope is %s", scope))
+		}
+
+		if len(excludedNamespaces) > 0 {
+			errMsgs = append(errMsgs, fmt.Sprintf("Excluded namespaces can't be configured when scope is %s", scope))
+		}
+
+		if len(labelSelector) > 0 {
+			errMsgs = append(errMsgs, fmt.Sprintf("Lable selectors can't be configured when scope is %s", scope))
+		}
+
+		if len(orLabelSelector) > 0 {
+			errMsgs = append(errMsgs, fmt.Sprintf("Or lables selectors can't be configured when scope is %s", scope))
+		}
+
+	case LabelSelectorBackupScope:
+		if len(labelSelector) == 0 && len(orLabelSelector) == 0 {
+			errMsgs = append(errMsgs, fmt.Sprintf("Or/Lablel selectors must be configured when scope is %s", scope))
+		}
+
+		if len(includedNamespaces) > 0 {
+			errMsgs = append(errMsgs, fmt.Sprintf("Included namespaces can't be configured when scope is %s", scope))
+		}
+	}
+
+	if len(errMsgs) > 0 {
+		err = errors.New(fmt.Sprintf("Schema validation failed:\n%s", strings.Join(errMsgs, "\n")))
+	}
+
+	return err
+}

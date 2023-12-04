@@ -22,7 +22,7 @@ var (
 
 var tfModelResourceMap = &tfModelConverterHelper.BlockToStruct{
 	backupcommon.NameKey: tfModelConverterHelper.BuildDefaultModelPath("fullName", "name"),
-	ScopeKey: &tfModelConverterHelper.BlockToStruct{
+	backupcommon.ScopeKey: &tfModelConverterHelper.BlockToStruct{
 		ClusterScopeKey: &tfModelConverterHelper.BlockToStruct{
 			backupcommon.ClusterNameKey:           tfModelConverterHelper.BuildDefaultModelPath("fullName", "clusterName"),
 			backupcommon.ManagementClusterNameKey: tfModelConverterHelper.BuildDefaultModelPath("fullName", "managementClusterName"),
@@ -127,7 +127,7 @@ var tfModelDataSourceRequestMap = &tfModelConverterHelper.BlockToStruct{
 	QueryKey:             "query",
 	IncludeTotalCountKey: "includeTotal",
 	backupcommon.NameKey: tfModelConverterHelper.BuildDefaultModelPath("searchScope", "name"),
-	ScopeKey: &tfModelConverterHelper.BlockToStruct{
+	backupcommon.ScopeKey: &tfModelConverterHelper.BlockToStruct{
 		ClusterGroupScopeKey: &tfModelConverterHelper.BlockToStruct{
 			ClusterGroupNameKey: tfModelConverterHelper.BuildDefaultModelPath("searchScope", "clusterGroupName"),
 		},

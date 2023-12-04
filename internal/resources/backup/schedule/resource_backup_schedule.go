@@ -7,7 +7,6 @@ package backupschedule
 
 import (
 	"context"
-	"fmt"
 	"strings"
 	"time"
 
@@ -32,7 +31,8 @@ func ResourceBackupSchedule() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			StateContext: resourceBackupScheduleImporter,
 		},
-		Schema: backupScheduleResourceSchema,
+		Schema:        backupScheduleResourceSchema,
+		CustomizeDiff: validateSchema,
 	}
 }
 
@@ -42,12 +42,6 @@ func resourceBackupScheduleCreate(ctx context.Context, data *schema.ResourceData
 
 	if err != nil {
 		return diag.FromErr(errors.Wrapf(err, "Couldn't create Tanzu Mission Control backup schedule."))
-	}
-
-	diags = validateSchema(model, backupcommon.BackupScope(data.Get(BackupScopeKey).(string)))
-
-	if diags.HasError() {
-		return diags
 	}
 
 	request := &clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleRequest{
@@ -68,7 +62,7 @@ func resourceBackupScheduleRead(ctx context.Context, data *schema.ResourceData, 
 	var resp *clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse
 
 	config := m.(authctx.TanzuContext)
-	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{ScopeKey, ClusterScopeKey, backupcommon.ClusterNameKey, backupcommon.ManagementClusterNameKey, backupcommon.ProvisionerNameKey})
+	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{backupcommon.ScopeKey, ClusterScopeKey, backupcommon.ClusterNameKey, backupcommon.ManagementClusterNameKey, backupcommon.ProvisionerNameKey})
 
 	if err != nil {
 		return diag.FromErr(errors.Wrapf(err, "Couldn't read Tanzu Mission Control backup schedule."))
@@ -128,7 +122,7 @@ func resourceBackupScheduleRead(ctx context.Context, data *schema.ResourceData, 
 
 func resourceBackupScheduleDelete(ctx context.Context, data *schema.ResourceData, m interface{}) (diags diag.Diagnostics) {
 	config := m.(authctx.TanzuContext)
-	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{ScopeKey, ClusterScopeKey, backupcommon.ClusterNameKey, backupcommon.ManagementClusterNameKey, backupcommon.ProvisionerNameKey})
+	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{backupcommon.ScopeKey, ClusterScopeKey, backupcommon.ClusterNameKey, backupcommon.ManagementClusterNameKey, backupcommon.ProvisionerNameKey})
 
 	if err != nil {
 		return diag.FromErr(errors.Wrapf(err, "Couldn't delete Tanzu Mission Control backup schedule."))
@@ -158,12 +152,6 @@ func resourceBackupScheduleUpdate(ctx context.Context, data *schema.ResourceData
 
 	if err != nil {
 		return diag.FromErr(errors.Wrapf(err, "Couldn't update Tanzu Mission Control backup schedule."))
-	}
-
-	diags = validateSchema(model, backupcommon.BackupScope(data.Get(BackupScopeKey).(string)))
-
-	if diags.HasError() {
-		return diags
 	}
 
 	systemExcludedNamespaces := getExcludedNamespaces(data, backupcommon.SystemExcludedNamespacesKey)
@@ -265,57 +253,11 @@ func readResourceWait(ctx context.Context, config *authctx.TanzuContext, resourc
 	return resp, err
 }
 
-func validateSchema(scheduleModel *clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule, scope backupcommon.BackupScope) (diags diag.Diagnostics) {
-	switch scope {
-	case backupcommon.FullClusterBackupScope:
-		if len(scheduleModel.Spec.Template.IncludedNamespaces) > 0 {
-			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Included namespaces can't be configured when scope is %s", scope))
-			diags = append(diags, d)
-		}
+func validateSchema(ctx context.Context, diff *schema.ResourceDiff, m interface{}) error {
+	backupTemplate := diff.Get(backupcommon.SpecKey).([]interface{})[0].(map[string]interface{})[TemplateKey].([]interface{})[0].(map[string]interface{})
+	backupScope := backupcommon.BackupScope(diff.Get(backupcommon.BackupScopeKey).(string))
 
-		if scheduleModel.Spec.Template.LabelSelector != nil {
-			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Lable selectors can't be configured when scope is %s", scope))
-			diags = append(diags, d)
-		}
-
-		if len(scheduleModel.Spec.Template.OrLabelSelectors) > 0 {
-			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Or lables selectors can't be configured when scope is %s", scope))
-			diags = append(diags, d)
-		}
-	case backupcommon.NamespacesBackupScope:
-		if len(scheduleModel.Spec.Template.IncludedNamespaces) == 0 {
-			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Included namespaces must be configured when scope is %s", scope))
-			diags = append(diags, d)
-		}
-
-		if len(scheduleModel.Spec.Template.ExcludedNamespaces) > 0 {
-			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Excluded namespaces can't be configured when scope is %s", scope))
-			diags = append(diags, d)
-		}
-
-		if scheduleModel.Spec.Template.LabelSelector != nil {
-			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Lable selectors can't be configured when scope is %s", scope))
-			diags = append(diags, d)
-		}
-
-		if len(scheduleModel.Spec.Template.OrLabelSelectors) > 0 {
-			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Or lables selectors can't be configured when scope is %s", scope))
-			diags = append(diags, d)
-		}
-
-	case backupcommon.LabelSelectorBackupScope:
-		if scheduleModel.Spec.Template.LabelSelector == nil && scheduleModel.Spec.Template.OrLabelSelectors == nil {
-			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Or/Lable selectors must be configured when scope is %s", scope))
-			diags = append(diags, d)
-		}
-
-		if len(scheduleModel.Spec.Template.IncludedNamespaces) > 0 {
-			d := buildValidationErrorDiag(fmt.Sprintf("(Template) Included namespaces can't be configured when scope is %s", scope))
-			diags = append(diags, d)
-		}
-	}
-
-	return diags
+	return backupcommon.ValidateSchema(backupTemplate, backupScope)
 }
 
 func getResponseSystemExcludedNamespaces(scheduleModel *clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupSchedule, userExcludedNamespaces []string) []string {
@@ -337,14 +279,6 @@ func getResponseSystemExcludedNamespaces(scheduleModel *clusterbackupschedulemod
 	}
 
 	return systemExcludedNamespaces
-}
-
-func buildValidationErrorDiag(msg string) diag.Diagnostic {
-	return diag.Diagnostic{
-		Severity: diag.Error,
-		Summary:  "Schema Validation Failed",
-		Detail:   msg,
-	}
 }
 
 func getExcludedNamespaces(data *schema.ResourceData, excludedNsKey string) []string {

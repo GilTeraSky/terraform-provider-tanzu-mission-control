@@ -19,9 +19,6 @@ import (
 const (
 	ResourceName = "tanzu-mission-control_backup_schedule"
 
-	// Root Keys.
-	BackupScopeKey = "backup_scope"
-
 	// Spec Directive Keys.
 	PausedKey   = "paused"
 	ScheduleKey = "schedule"
@@ -30,6 +27,21 @@ const (
 	// Schedule Directive Keys.
 	RateKey = "rate"
 )
+
+var backupScheduleResourceSchema = map[string]*schema.Schema{
+	backupcommon.NameKey:        nameSchema,
+	backupcommon.ScopeKey:       scopeSchema,
+	backupcommon.BackupScopeKey: backupScopeSchema,
+	backupcommon.SpecKey:        specSchema,
+	common.MetaKey:              common.Meta,
+}
+
+var nameSchema = &schema.Schema{
+	Type:        schema.TypeString,
+	Description: "The name of the backup schedule",
+	Required:    true,
+	ForceNew:    true,
+}
 
 var scopeSchema = &schema.Schema{
 	Type:        schema.TypeList,
@@ -54,21 +66,6 @@ var scopeSchema = &schema.Schema{
 			},
 		},
 	},
-}
-
-var backupScheduleResourceSchema = map[string]*schema.Schema{
-	backupcommon.NameKey: nameSchema,
-	ScopeKey:             scopeSchema,
-	BackupScopeKey:       backupScopeSchema,
-	backupcommon.SpecKey: specSchema,
-	common.MetaKey:       common.Meta,
-}
-
-var nameSchema = &schema.Schema{
-	Type:        schema.TypeString,
-	Description: "The name of the backup schedule",
-	Required:    true,
-	ForceNew:    true,
 }
 
 var managementClusterNameSchema = &schema.Schema{

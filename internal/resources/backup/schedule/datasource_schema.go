@@ -18,7 +18,6 @@ const (
 	IncludeTotalCountKey = "include_total_count"
 	SchedulesKey         = "schedules"
 	TotalCountKey        = "total_count"
-	ScopeKey             = "scope"
 	ClusterScopeKey      = "cluster"
 	ClusterGroupScopeKey = "cluster_group"
 	ClusterGroupNameKey  = "cluster_group_name"
@@ -81,13 +80,13 @@ var (
 	}
 
 	backupScheduleDataSourceSchema = map[string]*schema.Schema{
-		backupcommon.NameKey: nameDSSchema,
-		ScopeKey:             searchScopeSchema,
-		SortByKey:            sortBySchema,
-		QueryKey:             querySchema,
-		IncludeTotalCountKey: includeTotalSchema,
-		SchedulesKey:         schedulesSchema,
-		TotalCountKey:        totalCountSchema,
+		backupcommon.NameKey:  nameDSSchema,
+		backupcommon.ScopeKey: searchScopeSchema,
+		SortByKey:             sortBySchema,
+		QueryKey:              querySchema,
+		IncludeTotalCountKey:  includeTotalSchema,
+		SchedulesKey:          schedulesSchema,
+		TotalCountKey:         totalCountSchema,
 	}
 )
 
