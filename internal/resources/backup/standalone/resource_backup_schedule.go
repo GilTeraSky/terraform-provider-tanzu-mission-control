@@ -31,7 +31,8 @@ func ResourceBackup() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			StateContext: resourceBackupImporter,
 		},
-		Schema: backupResourceSchema,
+		CustomizeDiff: validateSchema,
+		Schema:        backupResourceSchema,
 	}
 }
 
@@ -162,6 +163,13 @@ func resourceBackupImporter(ctx context.Context, data *schema.ResourceData, m in
 	}
 
 	return []*schema.ResourceData{data}, err
+}
+
+func validateSchema(ctx context.Context, diff *schema.ResourceDiff, m interface{}) error {
+	backupSpec := diff.Get(backupcommon.SpecKey).([]interface{})[0].(map[string]interface{})
+	backupScope := backupcommon.BackupScope(diff.Get(backupcommon.BackupScopeKey).(string))
+
+	return backupcommon.ValidateSchema(backupSpec, backupScope)
 }
 
 func readResourceWait(ctx context.Context, config *authctx.TanzuContext, resourceFullName *commonbackupmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupFullName) (resp *backupsmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupData, err error) {
