@@ -62,20 +62,13 @@ func resourceBackupScheduleRead(ctx context.Context, data *schema.ResourceData, 
 	var resp *clusterbackupschedulemodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleResponse
 
 	config := m.(authctx.TanzuContext)
-	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{backupcommon.ScopeKey, ClusterScopeKey, backupcommon.ClusterNameKey, backupcommon.ManagementClusterNameKey, backupcommon.ProvisionerNameKey})
+	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{backupcommon.ScopeKey, backupcommon.NameKey})
 
 	if err != nil {
 		return diag.FromErr(errors.Wrapf(err, "Couldn't read Tanzu Mission Control backup schedule."))
 	}
 
 	backupScheduleFn := model.FullName
-
-	if name, ok := data.GetOk(backupcommon.NameKey); ok {
-		backupScheduleFn.Name = name.(string)
-	} else {
-		return diag.Errorf("Couldn't read Tanzu Mission Control backup name.")
-	}
-
 	resp, err = readResourceWait(ctx, &config, backupScheduleFn)
 
 	if err != nil {
@@ -122,20 +115,13 @@ func resourceBackupScheduleRead(ctx context.Context, data *schema.ResourceData, 
 
 func resourceBackupScheduleDelete(ctx context.Context, data *schema.ResourceData, m interface{}) (diags diag.Diagnostics) {
 	config := m.(authctx.TanzuContext)
-	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{backupcommon.ScopeKey, ClusterScopeKey, backupcommon.ClusterNameKey, backupcommon.ManagementClusterNameKey, backupcommon.ProvisionerNameKey})
+	model, err := tfModelResourceConverter.ConvertTFSchemaToAPIModel(data, []string{backupcommon.ScopeKey, backupcommon.NameKey})
 
 	if err != nil {
 		return diag.FromErr(errors.Wrapf(err, "Couldn't delete Tanzu Mission Control backup schedule."))
 	}
 
 	backupScheduleFn := model.FullName
-
-	if name, ok := data.GetOk(backupcommon.NameKey); ok {
-		backupScheduleFn.Name = name.(string)
-	} else {
-		return diag.Errorf("Couldn't read Tanzu Mission Control backup name.")
-	}
-
 	err = config.TMCConnection.BackupScheduleService.BackupScheduleResourceServiceDelete(backupScheduleFn)
 
 	if err != nil && !clienterrors.IsNotFoundError(err) {
@@ -176,7 +162,7 @@ func resourceBackupScheduleImporter(ctx context.Context, data *schema.ResourceDa
 	backupScheduleID := data.Id()
 
 	if backupScheduleID == "" {
-		return nil, errors.New("ID is needed to import an TMC AKS cluster")
+		return nil, errors.New("ID is needed to import a backup schedule.")
 	}
 
 	namesArray := strings.Split(backupScheduleID, "/")

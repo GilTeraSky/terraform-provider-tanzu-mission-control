@@ -11,6 +11,7 @@ import (
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/authctx"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/akscluster"
 	backupschedule "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup/schedule"
+	backup "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/backup/standalone"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster/dataprotection"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/cluster/integration"
@@ -85,6 +86,7 @@ func Provider() *schema.Provider {
 			targetlocation.ResourceName:      targetlocation.ResourceTargetLocation(),
 			managementcluster.ResourceName:   managementcluster.ResourceManagementClusterRegistration(),
 			utkgresource.ResourceName:        utkgresource.ResourceTanzuKubernetesCluster(),
+			backup.ResourceName:              backup.ResourceBackup(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			cluster.ResourceName:             cluster.DataSourceTMCCluster(),

@@ -23,28 +23,17 @@ const (
 	ClusterGroupNameKey  = "cluster_group_name"
 )
 
+var backupScheduleDataSourceSchema = map[string]*schema.Schema{
+	backupcommon.NameKey:  nameSchema,
+	backupcommon.ScopeKey: searchScopeSchema,
+	SortByKey:             sortBySchema,
+	QueryKey:              querySchema,
+	IncludeTotalCountKey:  includeTotalSchema,
+	SchedulesKey:          schedulesSchema,
+	TotalCountKey:         totalCountSchema,
+}
+
 var (
-	nameDSSchema = &schema.Schema{
-		Type:        schema.TypeString,
-		Description: "The name of the backup schedule",
-		Required:    true,
-		ForceNew:    true,
-	}
-
-	managementClusterNameDSSchema = &schema.Schema{
-		Type:        schema.TypeString,
-		Description: "Management cluster name",
-		Required:    true,
-		ForceNew:    true,
-	}
-
-	provisionerNameDSSchema = &schema.Schema{
-		Type:        schema.TypeString,
-		Description: "Cluster provisioner name",
-		Required:    true,
-		ForceNew:    true,
-	}
-
 	sortBySchema = &schema.Schema{
 		Type:        schema.TypeString,
 		Description: "Sort backups by field.",
@@ -79,37 +68,27 @@ var (
 		Computed:    true,
 	}
 
-	backupScheduleDataSourceSchema = map[string]*schema.Schema{
-		backupcommon.NameKey:  nameDSSchema,
-		backupcommon.ScopeKey: searchScopeSchema,
-		SortByKey:             sortBySchema,
-		QueryKey:              querySchema,
-		IncludeTotalCountKey:  includeTotalSchema,
-		SchedulesKey:          schedulesSchema,
-		TotalCountKey:         totalCountSchema,
-	}
-)
-
-var searchScopeSchema = &schema.Schema{
-	Type:        schema.TypeList,
-	Description: "Search scope block",
-	MaxItems:    1,
-	Required:    true,
-	Elem: &schema.Resource{
-		Schema: map[string]*schema.Schema{
-			ClusterScopeKey: {
-				Type:        schema.TypeList,
-				Optional:    true,
-				Description: "Cluster scope block",
-				MaxItems:    1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						backupcommon.ClusterNameKey:           clusterNameSchema,
-						backupcommon.ManagementClusterNameKey: managementClusterNameDSSchema,
-						backupcommon.ProvisionerNameKey:       provisionerNameDSSchema,
+	searchScopeSchema = &schema.Schema{
+		Type:        schema.TypeList,
+		Description: "Search scope block",
+		MaxItems:    1,
+		Required:    true,
+		Elem: &schema.Resource{
+			Schema: map[string]*schema.Schema{
+				ClusterScopeKey: {
+					Type:        schema.TypeList,
+					Optional:    true,
+					Description: "Cluster scope block",
+					MaxItems:    1,
+					Elem: &schema.Resource{
+						Schema: map[string]*schema.Schema{
+							backupcommon.ClusterNameKey:           backupcommon.ClusterNameSchema,
+							backupcommon.ManagementClusterNameKey: backupcommon.ManagementClusterNameSchema,
+							backupcommon.ProvisionerNameKey:       backupcommon.ProvisionerNameSchema,
+						},
 					},
 				},
 			},
 		},
-	},
-}
+	}
+)
