@@ -122,11 +122,11 @@ func verifyBackupScheduleResourceCreation(
 		resp, err := context.TMCConnection.BackupScheduleService.BackupScheduleResourceServiceGet(fn)
 
 		if err != nil {
-			return fmt.Errorf("target location resource not found, resource: %s | err: %s", resourceName, err)
+			return fmt.Errorf("backup schedule resource not found, resource: %s | err: %s", resourceName, err)
 		}
 
 		if resp == nil {
-			return fmt.Errorf("target location resource is empty, resource: %s", resourceName)
+			return fmt.Errorf("backup schedule resource is empty, resource: %s", resourceName)
 		}
 
 		return nil
@@ -156,7 +156,7 @@ func verifyBackupScheduleDataSource(
 		firstTargetLocation := fmt.Sprintf("%s.0.%s", backupscheduleres.SchedulesKey, backupcommon.NameKey)
 
 		if rs.Primary.Attributes[firstTargetLocation] != backupScheduleName {
-			return fmt.Errorf("target location wasn't found at index 0 (%s)", backupScheduleName)
+			return fmt.Errorf("backup schedule wasn't found at index 0 (%s)", backupScheduleName)
 		}
 
 		return nil

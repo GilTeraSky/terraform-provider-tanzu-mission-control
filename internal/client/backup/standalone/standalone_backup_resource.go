@@ -39,8 +39,6 @@ type ClientService interface {
 	BackupResourceServiceDelete(fn *backupcommon.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupFullName) error
 
 	BackupResourceServiceGet(fn *backupcommon.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupFullName) (*backupsmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupData, error)
-
-	// BackupResourceServiceList(request *backupsmodels.ListBackupSchedulesRequest) (*backupsmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupListResponse, error)
 }
 
 /*
@@ -85,37 +83,3 @@ func (c *Client) BackupResourceServiceGet(fullName *backupcommon.VmwareTanzuMana
 
 	return resp, err
 }
-
-/*
-BackupResourceServiceList lists backups.
-*/
-// func (c *Client) BackupResourceServiceList(request *backupsmodels.ListBackupSchedulesRequest) (*backupsmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleListSchedulesResponse, error) {
-// 	resp := &backupsmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionScheduleListSchedulesResponse{}
-//
-// 	if request.SearchScope == nil || request.SearchScope.ClusterName == "" {
-// 		return nil, errors.New("scope must be set with either provider name or cluster name")
-// 	}
-//
-// 	requestURL := helper.ConstructRequestURL(ClusterApiVersionAndGroup, request.SearchScope.ClusterName, dataProtectionBackupsPath)
-// 	queryParams := url.Values{}
-//
-// 	if request.SearchScope.ManagementClusterName != "" {
-// 		queryParams.Add("searchScope.managementClusterName", request.SearchScope.ManagementClusterName)
-// 	}
-//
-// 	if request.SearchScope.ProvisionerName != "" {
-// 		queryParams.Add("searchScope.provisionerName", request.SearchScope.ProvisionerName)
-// 	}
-//
-// 	if request.SearchScope.Name != "" {
-// 		queryParams.Add("searchScope.name", request.SearchScope.Name)
-// 	}
-//
-// 	if len(queryParams) > 0 {
-// 		requestURL = requestURL.AppendQueryParams(queryParams)
-// 	}
-//
-// 	err := c.Get(requestURL.String(), resp)
-//
-// 	return resp, err
-// }

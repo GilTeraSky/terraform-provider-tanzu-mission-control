@@ -133,17 +133,17 @@ func newHTTPClient(httpClient *transport.Client) *TanzuMissionControl {
 		ClusterHelmResourceService:                    helmfeatureclusterclient.New(httpClient),
 		ClusterGroupHelmResourceService:               helmfeatureclustergroupclient.New(httpClient),
 		ClusterHelmRepositoryResourceService:          helmrepositoryclusterclient.New(httpClient),
-		OrganizationHelmChartsResourceService:         helmchartsorgclient.New(httpClient),
-		ClusterGroupSecretResourceService:             secretclustergroupclient.New(httpClient),
-		ClusterGroupSecretExportResourceService:       secretexportclustergroupclient.New(httpClient),
-		KubeConfigResourceService:                     kubeconfigclient.New(httpClient),
-		BackupScheduleService:                         backupscheduleclient.New(httpClient),
-		DataProtectionService:                         dataprotectionclient.New(httpClient),
-		TargetLocationService:                         targetlocationclient.New(httpClient),
-		ManagementClusterRegistrationResourceService:  managementclusterregistrationclient.New(httpClient),
-		ClusterClassResourceService:                   clusterclassclient.New(httpClient),
-		TanzuKubernetesClusterResourceService:         tanzukubernetesclusterclient.New(httpClient),
-		BackupsResourceService:                        backupsclient.New(httpClient),
+		OrganizationHelmChartsResourceService:        helmchartsorgclient.New(httpClient),
+		ClusterGroupSecretResourceService:            secretclustergroupclient.New(httpClient),
+		ClusterGroupSecretExportResourceService:      secretexportclustergroupclient.New(httpClient),
+		KubeConfigResourceService:                    kubeconfigclient.New(httpClient),
+		BackupScheduleService:                        backupscheduleclient.New(httpClient),
+		DataProtectionService:                        dataprotectionclient.New(httpClient),
+		TargetLocationService:                        targetlocationclient.New(httpClient),
+		ManagementClusterRegistrationResourceService: managementclusterregistrationclient.New(httpClient),
+		ClusterClassResourceService:                  clusterclassclient.New(httpClient),
+		TanzuKubernetesClusterResourceService:        tanzukubernetesclusterclient.New(httpClient),
+		BackupResourceService:                        backupsclient.New(httpClient),
 	}
 }
 
@@ -200,6 +200,6 @@ type TanzuMissionControl struct {
 	TargetLocationService                         targetlocationclient.ClientService
 	ManagementClusterRegistrationResourceService  managementclusterregistrationclient.ClientService
 	ClusterClassResourceService                   clusterclassclient.ClientService
-	TanzuKubernetesClusterResourceService         tanzukubernetesclusterclient.ClientService
-	BackupsResourceService                        backupsclient.ClientService
+	TanzuKubernetesClusterResourceService tanzukubernetesclusterclient.ClientService
+	BackupResourceService                 backupsclient.ClientService
 }

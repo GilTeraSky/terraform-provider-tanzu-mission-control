@@ -48,7 +48,7 @@ func resourceBackupCreate(ctx context.Context, data *schema.ResourceData, m inte
 		Backup: model,
 	}
 
-	_, err = config.TMCConnection.BackupsResourceService.BackupResourceServiceCreate(request)
+	_, err = config.TMCConnection.BackupResourceService.BackupResourceServiceCreate(request)
 
 	if err != nil {
 		return diag.FromErr(errors.Wrapf(err, "Couldn't create Tanzu Mission Control backup.\nManagement Cluster Name: %s, Provisioner Name: %s, Cluster Name: %s,  Name: %s",
@@ -78,8 +78,6 @@ func resourceBackupRead(ctx context.Context, data *schema.ResourceData, m interf
 
 				return diags
 			} else if helper.IsDeleteState(ctx) {
-				// d.SetId("") is automatically called assuming delete returns no errors, but
-				// it is added here for explicitness.
 				_ = schema.RemoveFromState(data, m)
 
 				return diags
@@ -115,7 +113,7 @@ func resourceBackupDelete(ctx context.Context, data *schema.ResourceData, m inte
 	}
 
 	backupFn := model.FullName
-	err = config.TMCConnection.BackupsResourceService.BackupResourceServiceDelete(backupFn)
+	err = config.TMCConnection.BackupResourceService.BackupResourceServiceDelete(backupFn)
 
 	if err != nil && !clienterrors.IsNotFoundError(err) {
 		return diag.FromErr(errors.Wrapf(err, "Couldn't delete Tanzu Mission Control backup.\nManagement Cluster Name: %s, Provisioner Name: %s, Cluster Name: %s,  Name: %s",
@@ -140,7 +138,7 @@ func resourceBackupImporter(ctx context.Context, data *schema.ResourceData, m in
 	namesArray := strings.Split(backupID, "/")
 
 	if len(namesArray) != 4 {
-		return nil, errors.Errorf("Invalid backup ID.\nBackup id should consists of a full cluster name and the backup name separated by '/'.\nProvided ID: %s", backupID)
+		return nil, errors.Errorf("Invalid backup ID.\nBackup id should consist of a full cluster name and the backup name separated by '/'.\nProvided ID: %s", backupID)
 	}
 
 	backupFn := &commonbackupmodels.VmwareTanzuManageV1alpha1ClusterDataProtectionBackupFullName{
@@ -189,7 +187,7 @@ func readResourceWait(ctx context.Context, config *authctx.TanzuContext, resourc
 			time.Sleep(5 * time.Second)
 		}
 
-		resp, err = config.TMCConnection.BackupsResourceService.BackupResourceServiceGet(resourceFullName)
+		resp, err = config.TMCConnection.BackupResourceService.BackupResourceServiceGet(resourceFullName)
 
 		if err != nil || resp == nil || resp.Backup == nil {
 			return nil, err
