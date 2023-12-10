@@ -201,10 +201,10 @@ terraform import tanzu-mission-control_backup_schedule.demo_backup MANAGEMENT_CL
 
 ### Required
 
-- `backup_scope` (String) Scope for backup schedule.
+- `backup_scope` (String) Scope for backup.
 Valid values are (FULL_CLUSTER, SET_NAMESPACES, LABEL_SELECTOR)
-- `name` (String) The name of the backup schedule
-- `scope` (Block List, Min: 1, Max: 1) Scope block for Back up schedule (cluster/cluster group) (see [below for nested schema](#nestedblock--scope))
+- `name` (String) The name of the backup schedule.
+- `scope` (Block List, Min: 1, Max: 1) Scope block for Back up schedule (cluster/cluster group). (see [below for nested schema](#nestedblock--scope))
 - `spec` (Block List, Min: 1, Max: 1) Backup schedule spec block (see [below for nested schema](#nestedblock--spec))
 
 ### Optional
@@ -239,11 +239,11 @@ Required:
 Required:
 
 - `schedule` (Block List, Min: 1, Max: 1) Schedule block (see [below for nested schema](#nestedblock--spec--schedule))
+- `template` (Block List, Min: 1, Max: 1) Backup spec block. (see [below for nested schema](#nestedblock--spec--template))
 
 Optional:
 
 - `paused` (Boolean) Paused specifies whether the schedule is paused or not. (Default: False)
-- `template` (Block List, Max: 1) Backup schedule template block, backup definition to be run on the provided schedule (see [below for nested schema](#nestedblock--spec--template))
 
 <a id="nestedblock--spec--schedule"></a>
 ### Nested Schema for `spec.schedule`

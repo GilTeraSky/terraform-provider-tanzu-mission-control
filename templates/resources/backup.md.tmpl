@@ -1,0 +1,46 @@
+---
+Title: "Backup Resource"
+Description: |-
+   Creating a backup for a cluster.
+---
+
+# Backup Resource
+
+This resource enables users to create backups in a cluster.
+Backups can be applied in 3 levels:
+
+* Entire Cluster
+* Selected Namespaces
+* Resources Selection By Label Selector
+
+For more information regarding cluster backup, see [Cluster Backup][cluster-backup].
+
+[cluster-backup]: https://docs.vmware.com/en/VMware-Tanzu-Mission-Control/services/tanzumc-using/GUID-89926F80-050A-4F1C-9D04-D56D5F453995.html
+
+# Entire Cluster Backup
+
+## Example Usage
+
+{{ tffile "examples/resources/backup/resource_backup_full_cluster.tf" }}
+
+
+# Selected Namespaces Backup
+
+## Example Usage
+
+{{ tffile "examples/resources/backup/resource_backup_namespaces.tf" }}
+
+# Resources Selection By Label Selector Backup
+
+## Example Usage
+
+{{ tffile "examples/resources/backup/resource_backup_labels.tf" }}
+
+## Import Backup
+The resource ID for importing an existing backup should be comprised of a full cluster name and a backup name separated by '/'.
+
+```bash
+terraform import tanzu-mission-control_backup.demo_backup MANAGEMENT_CLUSTER_NAME/PROVISIONER_NAME/CLUSTER_NAME/BACKUP_NAME
+```
+
+{{ .SchemaMarkdown | trimspace }}
