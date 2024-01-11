@@ -6,13 +6,22 @@ SPDX-License-Identifier: MPL-2.0
 package custompolicytemplateclient
 
 import (
+	"net/url"
+
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/transport"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/helper"
 	custompolicytemplatemodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/custompolicytemplate"
 )
 
 const (
+	// API Paths.
 	customPolicyTemplateAPIVersionAndGroup = "v1alpha1/policy/templates"
+
+	// Params.
+	templateNameQueryParam      = "searchScope.name"
+	sortedByQueryParam          = "sortBy"
+	queryQueryParam             = "query"
+	includeTotalCountQueryParam = "includeTotalCount"
 )
 
 // New creates a new custom policy template resource service API client.
@@ -36,6 +45,8 @@ type ClientService interface {
 	CustomPolicyTemplateResourceServiceDelete(fn *custompolicytemplatemodels.VmwareTanzuManageV1alpha1PolicyTemplateFullName) error
 
 	CustomPolicyTemplateResourceServiceGet(fn *custompolicytemplatemodels.VmwareTanzuManageV1alpha1PolicyTemplateFullName) (*custompolicytemplatemodels.VmwareTanzuManageV1alpha1PolicyTemplateData, error)
+
+	CustomPolicyTemplateResourceServiceList(request *custompolicytemplatemodels.ListCustomTemplatesRequest) (*custompolicytemplatemodels.VmwareTanzuManageV1alpha1PolicyTemplateListData, error)
 }
 
 /*
@@ -78,4 +89,35 @@ func (c *Client) CustomPolicyTemplateResourceServiceDelete(fullName *custompolic
 	requestURL := helper.ConstructRequestURL(customPolicyTemplateAPIVersionAndGroup, fullName.Name).String()
 
 	return c.Delete(requestURL)
+}
+
+/*
+CustomPolicyTemplateResourceServiceList lists custom policy templates.
+*/
+func (c *Client) CustomPolicyTemplateResourceServiceList(request *custompolicytemplatemodels.ListCustomTemplatesRequest) (*custompolicytemplatemodels.VmwareTanzuManageV1alpha1PolicyTemplateListData, error) {
+	resp := &custompolicytemplatemodels.VmwareTanzuManageV1alpha1PolicyTemplateListData{}
+	requestURL := helper.ConstructRequestURL(customPolicyTemplateAPIVersionAndGroup)
+	queryParams := url.Values{}
+
+	queryParams.Add(includeTotalCountQueryParam, helper.ConvertToString(request.IncludeTotalCount, ""))
+
+	if request.TemplateName != "" {
+		queryParams.Add(templateNameQueryParam, request.TemplateName)
+	}
+
+	if request.SortBy != "" {
+		queryParams.Add(sortedByQueryParam, request.SortBy)
+	}
+
+	if request.Query != "" {
+		queryParams.Add(queryQueryParam, request.Query)
+	}
+
+	if len(queryParams) > 0 {
+		requestURL = requestURL.AppendQueryParams(queryParams)
+	}
+
+	err := c.Get(requestURL.String(), resp)
+
+	return resp, err
 }

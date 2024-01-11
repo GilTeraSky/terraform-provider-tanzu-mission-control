@@ -118,6 +118,8 @@ func Provider() *schema.Provider {
 			provisioner.ResourceName:                  provisioner.DataSourceProvisioner(),
 			inspections.ResourceNameInspections:       inspections.DataSourceInspections(),
 			inspections.ResourceNameInspectionResults: inspections.DataSourceInspectionResults(),
+			custompolicytemplate.ListDataSourceName:   custompolicytemplate.DataSourceListCustomTemplates(),
+			custompolicytemplate.DataSourceName:       custompolicytemplate.DataSourceCustomTemplates(),
 		},
 		ConfigureContextFunc: authctx.ProviderConfigureContext,
 	}
