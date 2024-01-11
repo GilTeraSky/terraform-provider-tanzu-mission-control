@@ -10,7 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	openapiv3 "github.com/vmware/terraform-provider-tanzu-mission-control/internal/helper/openapi_v3_schema_validator"
+	openapiv3 "github.com/vmware/terraform-provider-tanzu-mission-control/internal/helper/openapi_v3_utils"
 	clusterclassmodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/clusterclass"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/clusterclass"
 )

@@ -6,6 +6,7 @@ SPDX-License-Identifier: MPL-2.0
 package helper
 
 import (
+	"crypto/sha1"
 	"fmt"
 	"log"
 	"os"
@@ -226,4 +227,18 @@ func GetAllMapsKeys(maps ...map[string]interface{}) map[string]bool {
 	}
 
 	return keys
+}
+
+func Hash(input string) (string, error) {
+	hashObj := sha1.New()
+	_, err := hashObj.Write([]byte(input))
+
+	if err != nil {
+		return "", err
+	}
+
+	hashBytes := hashObj.Sum(nil)
+	hashHex := fmt.Sprintf("%x", hashBytes)
+	
+	return strings.ToLower(hashHex), err
 }

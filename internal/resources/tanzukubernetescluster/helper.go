@@ -17,7 +17,7 @@ import (
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/authctx"
 	clienterrors "github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/errors"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/helper"
-	openapiv3 "github.com/vmware/terraform-provider-tanzu-mission-control/internal/helper/openapi_v3_schema_validator"
+	openapiv3 "github.com/vmware/terraform-provider-tanzu-mission-control/internal/helper/openapi_v3_utils"
 	legacyclustermodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/cluster"
 	kubeconfigmodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/cluster/kubeconfig"
 	tanzukubernetesclustermodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/tanzukubernetescluster"
