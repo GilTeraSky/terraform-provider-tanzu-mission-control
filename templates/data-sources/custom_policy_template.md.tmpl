@@ -1,0 +1,15 @@
+---
+Title: "Custom Policy Template Data Source"
+Description: |-
+    Retrieving a custom policy template's manifest, recipe schema and usage template
+---
+
+# Custom Policy Template Data Source
+
+This data source enables users to retrieve a custom policy template's manifest, recipe schema and usage template.
+
+## Example Usage
+
+{{ tffile "examples/data-sources/custompolicytemplate/custom_policy_template.tf" }}
+
+{{ .SchemaMarkdown | trimspace }}
