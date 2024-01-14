@@ -119,7 +119,7 @@ func Provider() *schema.Provider {
 			inspections.ResourceNameInspections:       inspections.DataSourceInspections(),
 			inspections.ResourceNameInspectionResults: inspections.DataSourceInspectionResults(),
 			custompolicytemplate.ListDataSourceName:   custompolicytemplate.DataSourceListCustomTemplates(),
-			custompolicytemplate.DataSourceName:       custompolicytemplate.DataSourceCustomTemplates(),
+			custompolicytemplate.DataSourceName:       custompolicytemplate.DataSourceCustomTemplate(),
 		},
 		ConfigureContextFunc: authctx.ProviderConfigureContext,
 	}

@@ -11,16 +11,17 @@ package custompolicytemplate
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/pkg/errors"
-
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/authctx"
 	"github.com/vmware/terraform-provider-tanzu-mission-control/internal/client/proxy"
 	custompolicytemplatemodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/custompolicytemplate"
+	custompolicytemplateres "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/custompolicytemplate"
 	testhelper "github.com/vmware/terraform-provider-tanzu-mission-control/internal/resources/testing"
 )
 
@@ -55,14 +56,27 @@ func TestAcceptanceCustomPolicyTemplateResource(t *testing.T) {
 				Config: tfResourceConfigBuilder.GetSlimCustomPolicyTemplateConfig(),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(CustomPolicyTemplateResourceFullName, "name", CustomPolicyTemplateName),
-					verifyTanzuKubernetesClusterResource(provider, CustomPolicyTemplateResourceFullName, CustomPolicyTemplateName),
+					verifyCustomPolicyTemplateResource(provider, CustomPolicyTemplateResourceFullName, CustomPolicyTemplateName),
 				),
 			},
 			{
 				Config: tfResourceConfigBuilder.GetFullCustomPolicyTemplateConfig(),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(CustomPolicyTemplateResourceFullName, "name", CustomPolicyTemplateName),
-					verifyTanzuKubernetesClusterResource(provider, CustomPolicyTemplateResourceFullName, CustomPolicyTemplateName),
+					verifyCustomPolicyTemplateResource(provider, CustomPolicyTemplateResourceFullName, CustomPolicyTemplateName),
+				),
+			},
+			{
+				Config: fmt.Sprintf("%s\n%s", tfResourceConfigBuilder.GetFullCustomPolicyTemplateConfig(), GetDataSourceConfig()),
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttr(DataSourceFullName, "name", CustomPolicyTemplateName),
+					verifyCustomPolicyTemplateDataSource(provider, DataSourceFullName),
+				),
+			},
+			{
+				Config: fmt.Sprintf("%s\n%s", tfResourceConfigBuilder.GetFullCustomPolicyTemplateConfig(), GetListDataSourceConfig()),
+				Check: resource.ComposeTestCheckFunc(
+					verifyCustomPolicyTemplateListDataSource(provider, ListDataSourceFullName),
 				),
 			},
 		},
@@ -72,7 +86,7 @@ func TestAcceptanceCustomPolicyTemplateResource(t *testing.T) {
 	t.Log("Custom policy template resource acceptance test complete!")
 }
 
-func verifyTanzuKubernetesClusterResource(
+func verifyCustomPolicyTemplateResource(
 	provider *schema.Provider,
 	resourceName string,
 	customPolicyTemplateName string,
@@ -104,6 +118,81 @@ func verifyTanzuKubernetesClusterResource(
 
 		if resp == nil {
 			return errors.Errorf("Custom IAM Role resource is empty, resource: %s", resourceName)
+		}
+
+		return nil
+	}
+}
+
+func verifyCustomPolicyTemplateDataSource(
+	provider *schema.Provider,
+	dataSourceName string,
+) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		if provider == nil {
+			return fmt.Errorf("provider not initialised")
+		}
+
+		rs, ok := s.RootModule().Resources[dataSourceName]
+
+		if !ok {
+			return fmt.Errorf("could not found data source %s", dataSourceName)
+		}
+
+		if rs.Primary.ID == "" {
+			return fmt.Errorf("ID not set, data source %s", dataSourceName)
+		}
+
+		if rs.Primary.Attributes[custompolicytemplateres.TemplateManifestKey] == "" {
+			return errors.Errorf("Template manifest is empty in data source")
+		}
+
+		if rs.Primary.Attributes[custompolicytemplateres.RecipeSchemaKey] == "" {
+			return errors.Errorf("Recipe schema is empty in data source")
+		}
+
+		if rs.Primary.Attributes[custompolicytemplateres.RecipeTemplateKey] == "" {
+			return errors.Errorf("Recipe template is empty in data source")
+		}
+
+		return nil
+	}
+}
+
+func verifyCustomPolicyTemplateListDataSource(
+	provider *schema.Provider,
+	dataSourceName string,
+) resource.TestCheckFunc {
+	return func(s *terraform.State) error {
+		if provider == nil {
+			return fmt.Errorf("provider not initialised")
+		}
+
+		rs, ok := s.RootModule().Resources[dataSourceName]
+
+		if !ok {
+			return fmt.Errorf("could not found data source %s", dataSourceName)
+		}
+
+		if rs.Primary.ID == "" {
+			return fmt.Errorf("ID not set, data source %s", dataSourceName)
+		}
+
+		templatesCountKey := fmt.Sprintf("%s.#", custompolicytemplateres.TemplatesKey)
+		customPoliciesCount, _ := strconv.Atoi(rs.Primary.Attributes[templatesCountKey])
+		testTemplateFound := false
+
+		for i := 0; i < customPoliciesCount; i++ {
+			templateNameKey := fmt.Sprintf("%s.%v.%s", custompolicytemplateres.TemplatesKey, i, custompolicytemplateres.NameKey)
+
+			if rs.Primary.Attributes[templateNameKey] == CustomPolicyTemplateName {
+				testTemplateFound = true
+				break
+			}
+		}
+
+		if !testTemplateFound {
+			return errors.Errorf("Test template was not found in list data source")
 		}
 
 		return nil

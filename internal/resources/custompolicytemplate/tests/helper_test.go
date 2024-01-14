@@ -24,6 +24,10 @@ func initTestProvider(t *testing.T) *schema.Provider {
 		ResourcesMap: map[string]*schema.Resource{
 			custompolicytemplateres.ResourceName: custompolicytemplateres.ResourceCustomPolicyTemplate(),
 		},
+		DataSourcesMap: map[string]*schema.Resource{
+			custompolicytemplateres.ListDataSourceName: custompolicytemplateres.DataSourceListCustomTemplates(),
+			custompolicytemplateres.DataSourceName:     custompolicytemplateres.DataSourceCustomTemplate(),
+		},
 		ConfigureContextFunc: authctx.ProviderConfigureContext,
 	}
 

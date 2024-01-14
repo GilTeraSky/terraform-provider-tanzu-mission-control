@@ -21,7 +21,7 @@ import (
 	custompolicytemplatemodels "github.com/vmware/terraform-provider-tanzu-mission-control/internal/models/custompolicytemplate"
 )
 
-func DataSourceCustomTemplates() *schema.Resource {
+func DataSourceCustomTemplate() *schema.Resource {
 	// Unpack resource map to datasource map.
 	constructTFModelListDataSourceResponseMap()
 
