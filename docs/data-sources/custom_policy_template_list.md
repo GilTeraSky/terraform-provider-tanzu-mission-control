@@ -4,7 +4,7 @@ Description: |-
     Listing existing custom policy templates in TMC
 ---
 
-# Custom Policy Template Data Source
+# Custom Policy Template List Data Source
 
 This data source enables users to list existing custom policy templates in TMC.
 
