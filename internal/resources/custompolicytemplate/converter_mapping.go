@@ -65,7 +65,7 @@ var (
 	}
 )
 
-// Unpacks & populates tfModelResourceMap to tfModelListDataSourceResponseMap
+// Unpacks & populates tfModelResourceMap to tfModelListDataSourceResponseMap.
 func constructTFModelListDataSourceResponseMap() {
 	targetLocationDataSourceSchema := tfModelResourceConverter.UnpackSchema(tfModelConverterHelper.BuildArrayField("templates"))
 
